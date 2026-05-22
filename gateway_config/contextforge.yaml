@@ -2,5 +2,5 @@ version: "1.0"
 servers:
   internal_database:
     # Use host.docker.internal to route from the container back to Windows
-    url: "http://host.docker.internal:8000/sse"
+    url: "http://host.docker.internal:24444/sse"
     transport: "sse"

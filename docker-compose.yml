@@ -19,10 +19,17 @@ services:
       - "4444:4444"   # The unified endpoint for MAF
     volumes:
       - ./gateway_config/contextforge.yaml:/app/config.yaml
+      - ./gunicorn.config.py:/app/gunicorn.config.py
     environment:
       # Send Gateway traces directly to Phoenix via the Docker network
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:6006/v1/traces
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:4317
       - CONFIG_PATH=/app/config.yaml
+      - UAID_ALLOW_ALL_DOMAINS=true
+      - HOST=0.0.0.0
+      - API_HOST=0.0.0.0
+      - AUTH_REQUIRED=false
+      - MCP_REQUIRE_AUTH=false
+      - MCPGATEWAY_UI_ENABLED=true
     depends_on:
       - phoenix
     networks:

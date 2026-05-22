@@ -1,8 +1,8 @@
 import uvicorn
 from mcp.server.fastmcp import FastMCP
 
-# Initialize FastMCP
-mcp = FastMCP("Internal Database Server")
+# Initialize FastMCP on port 24444 to avoid conflicts
+mcp = FastMCP("Internal Database Server", host="0.0.0.0", port=24444)
 
 @mcp.tool()
 def search_company_database(ticker: str) -> str:
