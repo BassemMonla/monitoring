@@ -16,4 +16,4 @@ def search_company_database(ticker: str) -> str:
 if __name__ == "__main__":
     # Run an SSE server on port 8000. 
     # Use 0.0.0.0 so the Docker container can access it via host.docker.internal
-    mcp.run(transport="sse", host="0.0.0.0", port=8000)
+    mcp.run(transport="sse")

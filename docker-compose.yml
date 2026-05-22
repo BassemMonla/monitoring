@@ -3,11 +3,10 @@ version: '3.8'
 services:
   # 1. Arize Phoenix (Observability & Evaluation)
   phoenix:
-    image: arizeai/phoenix:latest
+    image: arizephoenix/phoenix:latest
     container_name: arize-phoenix
     ports:
       - "6006:6006"   # Web UI
-      - "4317:4317"   # OTLP gRPC receiver
       - "4318:4318"   # OTLP HTTP receiver
     networks:
       - agent-net
@@ -22,7 +21,7 @@ services:
       - ./gateway_config/contextforge.yaml:/app/config.yaml
     environment:
       # Send Gateway traces directly to Phoenix via the Docker network
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:4318
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:6006/v1/traces
       - CONFIG_PATH=/app/config.yaml
     depends_on:
       - phoenix

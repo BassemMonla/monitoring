@@ -6,7 +6,8 @@ from agent_framework.observability import configure_otel_providers
 from context_providers import ComplianceContextProvider
 
 # 1. SETUP OBSERVABILITY (Route MAF traces to local Phoenix Docker)
-os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "http://localhost:4318"
+os.environ["OTEL_EXPORTER_OTLP_PROTOCOL"] = "http/protobuf"
+os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "http://localhost:6006/v1/traces"
 configure_otel_providers()
 
 # 2. LOAD SKILLS (Absolute path resolution)
