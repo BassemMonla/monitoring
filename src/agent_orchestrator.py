@@ -65,7 +65,7 @@ async def main():
     result = await workflow.run("Please research NVDA and provide a report.")
     
     print("\n=== FINAL RESULT ===")
-    print(result.text)
+    print(getattr(result, "output", result))
 
 if __name__ == "__main__":
     asyncio.run(main())
