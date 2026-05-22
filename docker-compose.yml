@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # 1. Arize Phoenix (Observability & Evaluation)
+  phoenix:
+    image: arizeai/phoenix:latest
+    container_name: arize-phoenix
+    ports:
+      - "6006:6006"   # Web UI
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+    networks:
+      - agent-net
+
+  # 2. IBM ContextForge (MCP Gateway)
+  contextforge:
+    image: ghcr.io/ibm/mcp-context-forge:latest
+    container_name: contextforge-gateway
+    ports:
+      - "4444:4444"   # The unified endpoint for MAF
+    volumes:
+      - ./gateway_config/contextforge.yaml:/app/config.yaml
+    environment:
+      # Send Gateway traces directly to Phoenix via the Docker network
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://phoenix:4318
+      - CONFIG_PATH=/app/config.yaml
+    depends_on:
+      - phoenix
+    networks:
+      - agent-net
+
+networks:
+  agent-net:
+    driver: bridge
